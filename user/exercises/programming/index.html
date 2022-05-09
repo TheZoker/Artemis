@@ -63,7 +63,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#display-of-hidden-files">Display of hidden files</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#testing-with-artemis-java-test-sandbox">Testing with Artemis Java Test Sandbox</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#testing-with-ares">Testing with Ares</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#best-practices-for-writing-test-cases">Best practices for writing test cases</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#general-best-practices">General best practices</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#java-best-practices">Java best practices</a></li>
@@ -92,16 +92,18 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../dev/system-design/">System Design</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../dev/migration/">Database Migration</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../dev/use-local-user-management/">Using local user management</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../dev/saml2-shibboleth/">Shibboleth/SAML2 Login &amp; Registration</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../dev/guided-tour/">Guided Tour</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../dev/testservers/">Test Servers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../dev/docker/">Builds and Dependency Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../dev/cypress/">Cypress Bamboo Plans</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Administration Guide</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../admin/registration/">User Registration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../admin/saml2-shibboleth/">Shibboleth/SAML2 Login &amp; Registration</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../admin/accessRights/">Access Rights</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../admin/troubleshooting/">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../admin/knownIssues/">Known Issues</a></li>
 </ul>
 
         </div>
@@ -159,7 +161,7 @@
 <li><p><a class="reference internal" href="#display-of-hidden-files" id="id15">Display of hidden files</a></p></li>
 </ul>
 </li>
-<li><p><a class="reference internal" href="#testing-with-artemis-java-test-sandbox" id="id16">Testing with Artemis Java Test Sandbox</a></p></li>
+<li><p><a class="reference internal" href="#testing-with-ares" id="id16">Testing with Ares</a></p></li>
 <li><p><a class="reference internal" href="#best-practices-for-writing-test-cases" id="id17">Best practices for writing test cases</a></p>
 <ul>
 <li><p><a class="reference internal" href="#general-best-practices" id="id18">General best practices</a></p></li>
@@ -278,13 +280,14 @@ Depending on the feature set, some options might not be available during the cre
 The table below provides an overview of the supported features:</p>
 <table class="docutils align-default">
 <colgroup>
-<col style="width: 15%" />
-<col style="width: 15%" />
-<col style="width: 15%" />
-<col style="width: 13%" />
+<col style="width: 12%" />
+<col style="width: 12%" />
+<col style="width: 12%" />
 <col style="width: 10%" />
-<col style="width: 10%" />
-<col style="width: 21%" />
+<col style="width: 8%" />
+<col style="width: 8%" />
+<col style="width: 16%" />
+<col style="width: 24%" />
 </colgroup>
 <thead>
 <tr class="row-odd"><th class="head"><p>Programming Language</p></th>
@@ -294,6 +297,7 @@ The table below provides an overview of the supported features:</p>
 <th class="head"><p>Package Name</p></th>
 <th class="head"><p>Project Type</p></th>
 <th class="head"><p>Solution Repository Checkout</p></th>
+<th class="head"><p>Testwise Coverage Analysis</p></th>
 </tr>
 </thead>
 <tbody>
@@ -304,11 +308,13 @@ The table below provides an overview of the supported features:</p>
 <td><p>yes</p></td>
 <td><p>yes</p></td>
 <td><p>no</p></td>
+<td><p>yes (only for Gradle on Atlassian Setup)</p></td>
 </tr>
 <tr class="row-odd"><td><p>Python</p></td>
 <td><p>yes</p></td>
 <td><p>no</p></td>
 <td><p>yes</p></td>
+<td><p>no</p></td>
 <td><p>no</p></td>
 <td><p>no</p></td>
 <td><p>no</p></td>
@@ -320,8 +326,10 @@ The table below provides an overview of the supported features:</p>
 <td><p>no</p></td>
 <td><p>no</p></td>
 <td><p>no</p></td>
+<td><p>no</p></td>
 </tr>
 <tr class="row-odd"><td><p>C (FACT framework)</p></td>
+<td><p>no</p></td>
 <td><p>no</p></td>
 <td><p>no</p></td>
 <td><p>no</p></td>
@@ -336,6 +344,7 @@ The table below provides an overview of the supported features:</p>
 <td><p>no</p></td>
 <td><p>no</p></td>
 <td><p>yes</p></td>
+<td><p>no</p></td>
 </tr>
 <tr class="row-odd"><td><p>Kotlin</p></td>
 <td><p>yes</p></td>
@@ -344,8 +353,10 @@ The table below provides an overview of the supported features:</p>
 <td><p>yes</p></td>
 <td><p>no</p></td>
 <td><p>no</p></td>
+<td><p>no</p></td>
 </tr>
 <tr class="row-even"><td><p>VHDL</p></td>
+<td><p>no</p></td>
 <td><p>no</p></td>
 <td><p>no</p></td>
 <td><p>no</p></td>
@@ -360,8 +371,10 @@ The table below provides an overview of the supported features:</p>
 <td><p>no</p></td>
 <td><p>no</p></td>
 <td><p>no</p></td>
+<td><p>no</p></td>
 </tr>
 <tr class="row-even"><td><p>Swift</p></td>
+<td><p>no</p></td>
 <td><p>no</p></td>
 <td><p>no</p></td>
 <td><p>no</p></td>
@@ -376,6 +389,7 @@ The table below provides an overview of the supported features:</p>
 <td><p>no</p></td>
 <td><p>no</p></td>
 <td><p>yes</p></td>
+<td><p>no</p></td>
 </tr>
 </tbody>
 </table>
@@ -386,6 +400,8 @@ The table below provides an overview of the supported features:</p>
 <li><p><em>Plagiarism Checks</em>: <code class="docutils literal notranslate"><span class="pre">Artemis</span></code> is able to automatically calculate the similarity between student submissions. A side-by-side view of similar submissions is available to confirm the plagiarism suspicion.</p></li>
 <li><p><em>Package Name</em>: A package name has to be provided</p></li>
 <li><p><em>Solution Repository Checkout</em>: Instructors are able to compare a student submission against a sample solution in the solution repository</p></li>
+<li><p><em>Testwise Coverage Analysis</em>: <code class="docutils literal notranslate"><span class="pre">Artemis</span></code> can generate a build plan which additionally executes a testwise coverage analysis.
+<code class="docutils literal notranslate"><span class="pre">Artemis</span></code> aggregates the recorded data into different metrics. This feature allows instructors to check which code in the solution submission is how often executed by the test cases.</p></li>
 </ul>
 </li>
 </ul>
@@ -396,6 +412,10 @@ The table below provides an overview of the supported features:</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>Static Code Analysis for <code class="docutils literal notranslate"><span class="pre">C</span></code> exercises is only supported for <code class="docutils literal notranslate"><span class="pre">Bamboo</span></code> at the moment.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Testwise Coverage Analysis is only supported for <code class="docutils literal notranslate"><span class="pre">Bamboo</span></code> and exercises with regular test runs at the moment.</p>
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -497,6 +517,8 @@ the exercise creation.</p></li>
 <li><p><strong>Programming Language:</strong> The programming language for the exercise. Artemis chooses the template accordingly.
 Refer to the <a class="reference internal" href="#programming-features"><span class="std std-ref">programming exercise features</span></a> for an overview of the supported features for each template.</p></li>
 <li><p><strong>Project Type:</strong> Determines the project structure of the template. Not available for all programming languages.</p></li>
+<li><p><strong>With exemplary dependency:</strong> Adds an external Apache commons-lang dependency to the generated project as an example
+how maven dependencies should be used with Artemis exercises. Only available for Java exercises.</p></li>
 <li><p><strong>Package Name:</strong> The package name used for this exercise. Not available for all programming languages.</p></li>
 </ul>
 <div class="line-block">
@@ -618,7 +640,9 @@ Not supported together with static code analysis. Cannot be changed after the ex
 <li><p><strong>Check out repository of sample solution:</strong> Activate this option to checkout the solution into the ‘solution’ path.
 This option is useful to compare the student’s submission with the sample solution. This option is not available for all programming languages.</p></li>
 <li><p><strong>Allow Offline IDE:</strong> Allow students to clone their personal repository and work on the exercise with their preferred IDE.</p></li>
-<li><p><strong>Allow Online Editor:</strong> Allow students to work on the exercise using the Artemis Online Code Editor.</p>
+<li><p><strong>Allow Online Editor:</strong> Allow students to work on the exercise using the Artemis Online Code Editor.</p></li>
+<li><p><strong>Record Testwise Coverage:</strong> Activate this option to record the testwise coverage for the solution repository.
+This option is only available for Java-Gradle-projects with non-sequential test runs.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>At least one of the options <strong>Allow Offline IDE:</strong> and <strong>Allow Online Editor:</strong> must be active</p>
@@ -805,9 +829,9 @@ ln -s <span class="s2">&quot;</span><span class="nv">$dir</span><span class="s2"
 <table class="docutils align-default">
 <colgroup>
 <col style="width: 20%" />
-<col style="width: 23%" />
-<col style="width: 29%" />
+<col style="width: 25%" />
 <col style="width: 28%" />
+<col style="width: 27%" />
 </colgroup>
 <thead>
 <tr class="row-odd"><th class="head"><p>Programming Language</p></th>
@@ -818,7 +842,8 @@ ln -s <span class="s2">&quot;</span><span class="nv">$dir</span><span class="s2"
 </thead>
 <tbody>
 <tr class="row-even"><td rowspan="4"><p>Java</p></td>
-<td rowspan="4"><p>Maven plugins (pom.xml)</p></td>
+<td rowspan="4"><p>Maven plugins
+(pom.xml or build.gradle)</p></td>
 <td><p>Spotbugs</p></td>
 <td><p>spotbugs-exclusions.xml</p></td>
 </tr>
@@ -857,7 +882,7 @@ ln -s <span class="s2">&quot;</span><span class="nv">$dir</span><span class="s2"
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>Instructors are able to completely disable the usage of a specific static code analysis tool by removing the plugin/dependency from the execution mechanism.
-In case of Maven plugins, instructors can remove the unwanted tools from the <em>pom.xml</em>.
+In case of Maven plugins, instructors can remove the unwanted tools from the <em>pom.xml</em> or <em>build.gradle</em>.
 Alternatively, instructors can alter the task/script that executes the tools in the build plan.
 PMD and PMD CPD are a special case as both tools share a common plugin. To disable one or the other, instructors must delete the execution of a tool from the build plan.</p>
 </div>
@@ -1767,10 +1792,9 @@ This also means that other config files, like SwiftLint’s <code class="docutil
 can only be accessed via your own IDE.</p>
 </div>
 </div>
-<div class="section" id="testing-with-artemis-java-test-sandbox">
-<h2><a class="toc-backref" href="#id16">Testing with Artemis Java Test Sandbox</a><a class="headerlink" href="#testing-with-artemis-java-test-sandbox" title="Permalink to this headline"></a></h2>
-<p>Artemis Java Test Sandbox <em>(abbr. AJTS)</em> is a JUnit 5 extension for easy and secure Java testing
-on Artemis.</p>
+<div class="section" id="testing-with-ares">
+<h2><a class="toc-backref" href="#id16">Testing with Ares</a><a class="headerlink" href="#testing-with-ares" title="Permalink to this headline"></a></h2>
+<p>Ares is a JUnit 5 extension for easy and secure Java testing on Artemis.</p>
 <p>Its main features are</p>
 <ul class="simple">
 <li><p>a security manager to prevent students crashing the tests or cheating</p></li>
@@ -1780,12 +1804,12 @@ on Artemis.</p>
 or pointing to a possible location that caused an Exception</p></li>
 <li><p>utilities to test exercises using System.out and System.in comfortably</p></li>
 </ul>
-<p><strong>For more information see</strong> <a class="reference external" href="https://github.com/ls1intum/artemis-java-test-sandbox">AJTS GitHub</a></p>
+<p><strong>For more information see</strong> <a class="reference external" href="https://github.com/ls1intum/Ares">Ares GitHub</a></p>
 </div>
 <div class="section" id="best-practices-for-writing-test-cases">
 <h2><a class="toc-backref" href="#id17">Best practices for writing test cases</a><a class="headerlink" href="#best-practices-for-writing-test-cases" title="Permalink to this headline"></a></h2>
 <p>The following sections describe best practices for writing test cases.
-The examples and explanations are specifically written for Java (using AJTS/JUnit5), but the practices can also be generalized
+The examples and explanations are specifically written for Java (using Ares/JUnit5), but the practices can also be generalized
 for other programming languages.</p>
 <div class="section" id="general-best-practices">
 <h3><a class="toc-backref" href="#id18">General best practices</a><a class="headerlink" href="#general-best-practices" title="Permalink to this headline"></a></h3>
@@ -2000,7 +2024,7 @@ base package name to the top of your test class.</p>
 </li>
 <li><p><strong>Use JUnit5 and Ares Features</strong></p>
 <p>More information can be found in the <a class="reference external" href="https://junit.org/junit5/docs/current/user-guide/#writing-tests">JUnit5</a> and
-<a class="reference external" href="https://github.com/ls1intum/artemis-java-test-sandbox#readme">Ares</a> documentation. The following list adds some
+<a class="reference external" href="https://github.com/ls1intum/Ares#readme">Ares</a> documentation. The following list adds some
 useful notes:</p>
 <ul>
 <li><p>Use <a class="reference external" href="https://junit.org/junit5/docs/current/user-guide/#writing-tests-nested">Nested Tests</a> to group tests</p>

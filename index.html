@@ -49,16 +49,18 @@
 <li class="toctree-l1"><a class="reference internal" href="dev/system-design/">System Design</a></li>
 <li class="toctree-l1"><a class="reference internal" href="dev/migration/">Database Migration</a></li>
 <li class="toctree-l1"><a class="reference internal" href="dev/use-local-user-management/">Using local user management</a></li>
-<li class="toctree-l1"><a class="reference internal" href="dev/saml2-shibboleth/">Shibboleth/SAML2 Login &amp; Registration</a></li>
 <li class="toctree-l1"><a class="reference internal" href="dev/guided-tour/">Guided Tour</a></li>
 <li class="toctree-l1"><a class="reference internal" href="dev/testservers/">Test Servers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="dev/docker/">Builds and Dependency Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dev/cypress/">Cypress Bamboo Plans</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Administration Guide</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="admin/registration/">User Registration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="admin/saml2-shibboleth/">Shibboleth/SAML2 Login &amp; Registration</a></li>
 <li class="toctree-l1"><a class="reference internal" href="admin/accessRights/">Access Rights</a></li>
 <li class="toctree-l1"><a class="reference internal" href="admin/troubleshooting/">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="admin/knownIssues/">Known Issues</a></li>
 </ul>
 
         </div>
@@ -113,7 +115,7 @@
 <li class="toctree-l3"><a class="reference internal" href="user/exercises/programming/#static-code-analysis-default-configuration">Static Code Analysis Default Configuration</a></li>
 <li class="toctree-l3"><a class="reference internal" href="user/exercises/programming/#submission-policy-configuration">Submission Policy Configuration</a></li>
 <li class="toctree-l3"><a class="reference internal" href="user/exercises/programming/#online-editor">Online Editor</a></li>
-<li class="toctree-l3"><a class="reference internal" href="user/exercises/programming/#testing-with-artemis-java-test-sandbox">Testing with Artemis Java Test Sandbox</a></li>
+<li class="toctree-l3"><a class="reference internal" href="user/exercises/programming/#testing-with-ares">Testing with Ares</a></li>
 <li class="toctree-l3"><a class="reference internal" href="user/exercises/programming/#best-practices-for-writing-test-cases">Best practices for writing test cases</a></li>
 <li class="toctree-l3"><a class="reference internal" href="user/exercises/programming/#sending-feedback-back-to-artemis">Sending Feedback back to Artemis</a></li>
 </ul>
@@ -190,7 +192,10 @@
 <p class="caption" role="heading"><span class="caption-text">Contributor Guide</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="dev/setup/">Setup Guide</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="dev/setup/#mysql-setup">MySQL Setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dev/setup/#mysql-setup">MySQL Setup</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="dev/setup/#set-empty-root-password-for-mysql-8">Set empty root password for MySQL 8</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="dev/setup/#server-setup">Server Setup</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="dev/setup/bamboo-bitbucket-jira/">Bamboo, Bitbucket and Jira</a></li>
 <li class="toctree-l3"><a class="reference internal" href="dev/setup/jenkins-gitlab/">Jenkins and Gitlab</a></li>
@@ -200,6 +205,7 @@
 <li class="toctree-l3"><a class="reference internal" href="dev/setup/programming-exercises/#caching-example-for-maven">Caching example for Maven</a></li>
 <li class="toctree-l3"><a class="reference internal" href="dev/setup/kubernetes/">Kubernetes</a></li>
 <li class="toctree-l3"><a class="reference internal" href="dev/setup/#run-the-server-via-a-service-configuration">Run the server via a service configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dev/setup/#run-the-server-via-docker">Run the server via Docker</a></li>
 <li class="toctree-l3"><a class="reference internal" href="dev/setup/#run-the-server-via-a-run-configuration-in-intellij">Run the server via a run configuration in IntelliJ</a></li>
 <li class="toctree-l3"><a class="reference internal" href="dev/setup/#run-the-server-with-spring-boot-and-spring-profiles">Run the server with Spring Boot and Spring profiles</a></li>
 <li class="toctree-l3"><a class="reference internal" href="dev/setup/#run-the-server-with-the-command-line-gradle-wrapper">Run the server with the command line (Gradle wrapper)</a></li>
@@ -320,7 +326,6 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="dev/use-local-user-management/">Using local user management</a></li>
-<li class="toctree-l1"><a class="reference internal" href="dev/saml2-shibboleth/">Shibboleth/SAML2 Login &amp; Registration</a></li>
 <li class="toctree-l1"><a class="reference internal" href="dev/guided-tour/">Guided Tour</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="dev/guided-tour/#create-guidedtour-object">Create GuidedTour object</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="dev/guided-tour/#texttourstep-with-highlighted-element">TextTourStep with highlighted element</a></li>
@@ -354,12 +359,19 @@
 <li class="toctree-l2"><a class="reference internal" href="dev/docker/#steps-for-updating-the-dockerbuilds-used-in-artemis">Steps for Updating the DockerBuilds used in Artemis</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="dev/cypress/">Cypress Bamboo Plans</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="dev/cypress/#artemis-deployment-on-bamboo-build-agent">Artemis Deployment on Bamboo Build Agent</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dev/cypress/#artemis-deployment-in-test-environment">Artemis Deployment in Test Environment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dev/cypress/#maintenance">Maintenance</a></li>
+</ul>
+</li>
 </ul>
 </div>
 <div class="toctree-wrapper compound">
 <p class="caption" role="heading"><span class="caption-text">Administration Guide</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="admin/registration/">User Registration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="admin/saml2-shibboleth/">Shibboleth/SAML2 Login &amp; Registration</a></li>
 <li class="toctree-l1"><a class="reference internal" href="admin/accessRights/">Access Rights</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="admin/accessRights/#navigation">Navigation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="admin/accessRights/#course">Course</a></li>
@@ -375,6 +387,10 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="admin/troubleshooting/">Troubleshooting</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="admin/troubleshooting/#repository-download-of-large-courses-fails">Repository download of large courses fails</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="admin/knownIssues/">Known Issues</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="admin/knownIssues/#no-user-updates-with-jenkins-without-password">No user updates with Jenkins without password</a></li>
 </ul>
 </li>
 </ul>

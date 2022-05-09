@@ -62,6 +62,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../programming-exercises/#caching-example-for-maven">Caching example for Maven</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../kubernetes/">Kubernetes</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../#run-the-server-via-a-service-configuration">Run the server via a service configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../#run-the-server-via-docker">Run the server via Docker</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../#run-the-server-via-a-run-configuration-in-intellij">Run the server via a run configuration in IntelliJ</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../#run-the-server-with-spring-boot-and-spring-profiles">Run the server with Spring Boot and Spring profiles</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../#run-the-server-with-the-command-line-gradle-wrapper">Run the server with the command line (Gradle wrapper)</a></li>
@@ -79,16 +80,18 @@
 <li class="toctree-l1"><a class="reference internal" href="../../system-design/">System Design</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../migration/">Database Migration</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../use-local-user-management/">Using local user management</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../saml2-shibboleth/">Shibboleth/SAML2 Login &amp; Registration</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../guided-tour/">Guided Tour</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../testservers/">Test Servers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../docker/">Builds and Dependency Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cypress/">Cypress Bamboo Plans</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Administration Guide</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../admin/registration/">User Registration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../admin/saml2-shibboleth/">Shibboleth/SAML2 Login &amp; Registration</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../admin/accessRights/">Access Rights</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../admin/troubleshooting/">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../admin/knownIssues/">Known Issues</a></li>
 </ul>
 
         </div>
@@ -153,35 +156,19 @@ setup is present.</p>
 <h2><a class="toc-backref" href="#id9">Docker-Compose</a><a class="headerlink" href="#docker-compose" title="Permalink to this headline"></a></h2>
 <p>Before you start the docker-compose, check if the bamboo version in the
 <code class="docutils literal notranslate"><span class="pre">build.gradle</span></code> (search for <code class="docutils literal notranslate"><span class="pre">com.atlassian.bamboo:bamboo-specs</span></code>) is
-equal to the bamboo version number in the Dockerfiles of bamboo stored in
-<code class="docutils literal notranslate"><span class="pre">src/main/docker/bamboo</span></code> (<code class="docutils literal notranslate"><span class="pre">src/main/docker/bamboo/Dockerfile</span></code>, <code class="docutils literal notranslate"><span class="pre">src/main/docker/bamboo/swift/Dockerfile</span></code>, and <code class="docutils literal notranslate"><span class="pre">src/main/docker/bamboo/c/Dockerfile</span></code>).
-If the version number is not equal, adjust the version number in the Dockerfile.</p>
-<p>In case you want to enable Swift or C programming exercises, you need to change
-the specified Dockerfile in the docker-compose file <code class="docutils literal notranslate"><span class="pre">atlassian.yml</span></code> stored in <code class="docutils literal notranslate"><span class="pre">src/main/docker</span></code>.
-To use the Swift Dockerfile, change the following:</p>
-<blockquote>
-<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">bamboo</span><span class="p">:</span>
-        <span class="n">container_name</span><span class="p">:</span> <span class="n">artemis_bamboo</span>
-        <span class="n">build</span><span class="p">:</span> <span class="n">bamboo</span>
-</pre></div>
-</div>
-</div></blockquote>
-<p>to:</p>
-<blockquote>
-<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">bamboo</span><span class="p">:</span>
-        <span class="n">container_name</span><span class="p">:</span> <span class="n">artemis_bamboo</span>
-        <span class="n">build</span><span class="p">:</span> <span class="n">bamboo</span><span class="o">/</span><span class="n">swift</span>
-</pre></div>
-</div>
-</div></blockquote>
+equal to the bamboo version number in the docker compose in
+<code class="docutils literal notranslate"><span class="pre">src/main/docker/atlassian.yml</span></code>
+If the version number is not equal, adjust the version number. Further details about the docker-compose setup can be found in
+<code class="docutils literal notranslate"><span class="pre">src/main/docker</span></code></p>
 <p>Execute the docker-compose file e.g. with
-<code class="docutils literal notranslate"><span class="pre">docker-compose</span> <span class="pre">-f</span> <span class="pre">src/main/docker/atlassian.yml</span> <span class="pre">up</span> <span class="pre">-d</span></code>.
-If you notice that the used image didn’t change, append the flag <code class="docutils literal notranslate"><span class="pre">--build</span></code>.</p>
+<code class="docutils literal notranslate"><span class="pre">docker-compose</span> <span class="pre">-f</span> <span class="pre">src/main/docker/atlassian.yml</span> <span class="pre">up</span> <span class="pre">-d</span></code>.</p>
 <p>Error Handling: It can happen that there is an overload with other
 docker networks
 <code class="docutils literal notranslate"><span class="pre">ERROR:</span> <span class="pre">Pool</span> <span class="pre">overlaps</span> <span class="pre">with</span> <span class="pre">other</span> <span class="pre">one</span> <span class="pre">on</span> <span class="pre">this</span> <span class="pre">address</span> <span class="pre">space</span></code>. Use the
 command <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">network</span> <span class="pre">prune</span></code> to resolve this issue.</p>
 <p>Make sure that docker has enough memory (~ 6GB). To adapt it, go to <code class="docutils literal notranslate"><span class="pre">Settings</span> <span class="pre">-&gt;</span> <span class="pre">Resources</span></code></p>
+<p>In case you want to enable Swift or C programming exercises, refer to the readme in
+<code class="docutils literal notranslate"><span class="pre">src/main/docker</span></code></p>
 </div>
 <div class="section" id="configure-bamboo-bitbucket-and-jira">
 <h2><a class="toc-backref" href="#id10">Configure Bamboo, Bitbucket and Jira</a><a class="headerlink" href="#configure-bamboo-bitbucket-and-jira" title="Permalink to this headline"></a></h2>
@@ -198,6 +185,7 @@ under <code class="docutils literal notranslate"><span class="pre">localhost:799
 </ul>
 </li>
 <li><p>Provide the just created license key during the setup and create an admin user with the same credentials in all 3 applications.
+For the Bamboo database you can choose H2.
 Also, you can select the evaluation/internal/test/dev setups if you are asked.
 Follow the additional steps for Jira and Bitbucket.</p>
 <ul class="simple">
@@ -214,20 +202,21 @@ Follow the additional steps for Jira and Bitbucket.</p>
 <li><p>Bitbucket: Do not connect Bitbucket with Jira yet</p></li>
 </ul>
 </li>
-<li><p>Make sure that <a class="reference external" href="https://www.howtoinstall.me/ubuntu/18-04/xdg-utils/">xdg-utils</a> is installed before running the following script.</p>
+<li><p>Make sure that Jira, Bitbucket and Bamboo have finished starting up.</p>
 <blockquote>
-<div><details>
+<div><p>(Only Linux &amp; Windows) Make sure that <a class="reference external" href="https://www.howtoinstall.me/ubuntu/18-04/xdg-utils/">xdg-utils</a> is installed before running the following script.</p>
+<details>
 <summary>xdg-utils for Windows users</summary>
 An easy way to use the xdg-utils on Windows would be to install them on the linux-subsystem, which should be activated anyways when running Docker on Windows.
 For the installation on the subsystem the above linked explanation can be used.
 <br>
 Make sure to execute the script from the subsystem.
 </details></div></blockquote>
-<p>Make sure that Jira, Bitbucket and Bamboo have finished starting up.</p>
 <p>Execute the shell script <code class="docutils literal notranslate"><span class="pre">atlassian-setup.sh</span></code> in the
 <code class="docutils literal notranslate"><span class="pre">src/main/docker</span></code> directory (e.g. with
 <code class="docutils literal notranslate"><span class="pre">src/main/docker/./atlassian-setup.sh</span></code>). This script creates
-groups, users and disabled application links between the 3 applications.</p>
+groups, users and assigns the user to their respective group.
+In addition, it configures disabled application links between the 3 applications.</p>
 </li>
 <li><p>Enable the created <a class="reference external" href="https://confluence.atlassian.com/doc/linking-to-another-application-360677690.html">application
 links</a>
@@ -272,9 +261,9 @@ Bitbucket → Bamboo URl to</strong> <code class="docutils literal notranslate">
 </li>
 </ul>
 </li>
-<li><p>The script <em>(step 3)</em> has already created users and groups but you need to
-manually assign the users into their respective group in Jira. In our
-test setup, users 1-5 are students, 6-10 are tutors, 11-15 are
+<li><p>The script <em>(step 3)</em> has already created the required users and assigned them to their respective group in Jira.
+Now, make sure that they are assigned correctly according to the following test setup:
+users 1-5 are students, 6-10 are tutors, 11-15 are
 editors and 16-20 are instructors. The usernames are artemis_test_user_{1-20}
 and the password is again the username. When you create a course in artemis
 you have to manually choose the created groups (students, tutors, editors,
@@ -336,11 +325,13 @@ groups should now be available.</p></li>
 </table>
 </div></blockquote>
 </li>
+<li><p>Give the test users User access on Bitbucket: Configure → Global permissions</p></li>
 <li><p>In Bamboo create a global variable named
 SERVER_PLUGIN_SECRET_PASSWORD, the value of this variable will be used
 as the secret. The value of this variable should be then stored in
 <code class="docutils literal notranslate"><span class="pre">src/main/resources/config/application-artemis.yml</span></code> as the value of
-<code class="docutils literal notranslate"><span class="pre">artemis-authentication-token-value</span></code>.</p></li>
+<code class="docutils literal notranslate"><span class="pre">artemis-authentication-token-value</span></code>.
+You can create a global variable from settings on Bamboo.</p></li>
 <li><p>Download the
 <a class="reference external" href="https://github.com/ls1intum/bamboo-server-notification-plugin/releases">bamboo-server-notification-plugin</a>
 and add it to bamboo. Go to Bamboo → Manage apps → Upload app → select
@@ -354,6 +345,7 @@ Capability type <code class="docutils literal notranslate"><span class="pre">Exe
 as JDK label → insert <code class="docutils literal notranslate"><span class="pre">/usr/lib/jvm/java-17-oracle</span></code> as Java home.</p></li>
 </ul>
 </li>
+<li><p>Create a Bamboo agent. Configure → Agents → Add local agent</p></li>
 <li><p>Generate a personal access token</p>
 <p>While username and password can still be used as a fallback, this option is already marked as deprecated and will
 be removed in the future.</p>
@@ -399,24 +391,6 @@ be removed in the future.</p>
 </div>
 </div></blockquote>
 </li>
-<li><dl>
-<dt>Disable XSRF checking</dt><dd><p>Although XSRF checking is highly recommended, we currently have to disable it as Artemis does not yet support
-sending the required headers.</p>
-<ul>
-<li><p>Log in as the admin user go to Bamboo -&gt; Overview -&gt; Security Settings</p>
-<blockquote>
-<div><p>Edit the settings and disable XSRF checking:</p>
-<blockquote>
-<div><div class="figure align-center">
-<img alt="../../../_images/bamboo_xsrf_disable.png" src="../../../_images/bamboo_xsrf_disable.png" />
-</div>
-</div></blockquote>
-</div></blockquote>
-</li>
-</ul>
-</dd>
-</dl>
-</li>
 <li><p>Add a SSH key for the admin user</p>
 <blockquote>
 <div><p>Artemis can clone/push the repositories during setup and for the online code editor using SSH.
@@ -441,7 +415,9 @@ Open the public key file (usually called <code class="docutils literal notransla
 <li><p>Modify <code class="docutils literal notranslate"><span class="pre">src/main/resources/config/application-artemis.yml</span></code></p>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">repo-clone-path</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">./repos/</span>
 <span class="nt">repo-download-clone-path</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">./repos-download/</span>
-<span class="nt">encryption-password</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">artemis-encrypt</span>   <span class="c1"># arbitrary password for encrypting database values</span>
+<span class="nt">encryption-password</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">artemis-encrypt</span>         <span class="c1"># LEGACY: arbitrary password for encrypting database values</span>
+<span class="nt">bcrypt-salt-rounds</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">11</span>   <span class="c1"># The number of salt rounds for the bcrypt password hashing. Lower numbers make it faster but more unsecure and vice versa.</span>
+                         <span class="c1"># Please use the bcrypt benchmark tool to determine the best number of rounds for your system. https://github.com/ls1intum/bcrypt-Benchmark</span>
 <span class="nt">user-management</span><span class="p">:</span>
     <span class="nt">use-external</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
     <span class="nt">external</span><span class="p">:</span>

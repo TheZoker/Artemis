@@ -58,16 +58,18 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../use-local-user-management/">Using local user management</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../saml2-shibboleth/">Shibboleth/SAML2 Login &amp; Registration</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../guided-tour/">Guided Tour</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../testservers/">Test Servers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../docker/">Builds and Dependency Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cypress/">Cypress Bamboo Plans</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Administration Guide</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../admin/registration/">User Registration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../admin/saml2-shibboleth/">Shibboleth/SAML2 Login &amp; Registration</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../admin/accessRights/">Access Rights</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../admin/troubleshooting/">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../admin/knownIssues/">Known Issues</a></li>
 </ul>
 
         </div>
@@ -113,6 +115,7 @@
 <li><p>All executed entries are saved in the table <code class="code docutils literal notranslate"><span class="pre">migration_changelog</span></code>. If you delete entries, they get executed again.</p></li>
 <li><p>Test your changes locally first, and only commit changes you are confident that work.</p></li>
 <li><p>Before deploying any database changes to a test server, ask for official permission from the project lead. If the changes don’t get approved, manual rollbacks can be necessary, which are avoidable.</p></li>
+<li><p>If queries fail due to the authorization object being null, call <cite>SecurityUtils.setAuthorizationObject()</cite> beforehand to set a dummy object.</p></li>
 </ul>
 </div>
 </div>

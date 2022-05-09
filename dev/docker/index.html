@@ -17,7 +17,7 @@
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex/" />
     <link rel="search" title="Search" href="../../search/" />
-    <link rel="next" title="User Registration" href="../../admin/registration/" />
+    <link rel="next" title="Cypress Bamboo Plans" href="../cypress/" />
     <link rel="prev" title="Test Servers" href="../testservers/" /> 
 </head>
 
@@ -50,7 +50,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../system-design/">System Design</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../migration/">Database Migration</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../use-local-user-management/">Using local user management</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../saml2-shibboleth/">Shibboleth/SAML2 Login &amp; Registration</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../guided-tour/">Guided Tour</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../testservers/">Test Servers</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Builds and Dependency Management</a><ul>
@@ -58,12 +57,15 @@
 <li class="toctree-l2"><a class="reference internal" href="#steps-for-updating-the-dockerbuilds-used-in-artemis">Steps for Updating the DockerBuilds used in Artemis</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../cypress/">Cypress Bamboo Plans</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Administration Guide</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../admin/registration/">User Registration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../admin/saml2-shibboleth/">Shibboleth/SAML2 Login &amp; Registration</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../admin/accessRights/">Access Rights</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../admin/troubleshooting/">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../admin/knownIssues/">Known Issues</a></li>
 </ul>
 
         </div>
@@ -122,7 +124,7 @@ To reduce the time required for each test run, these docker containers already i
 <li><p>Wait for a successful build of “latest”</p></li>
 <li><div class="line-block">
 <div class="line">Click “Configure Automated Builds” and create a new build rule for a new tag, following the naming scheme:</div>
-<div class="line">“&lt;programming language&gt;&lt;Version of programming language&gt;-&lt;Upwards counting number&gt;”, for example “java16-3”</div>
+<div class="line">“&lt;programming language&gt;&lt;Version of programming language&gt;-&lt;Upwards counting number&gt;”, for example “java17-3”</div>
 </div>
 <ul class="simple">
 <li><p>The “Sourcetype” should be “Tag”</p></li>
@@ -139,7 +141,7 @@ To reduce the time required for each test run, these docker containers already i
 </ul>
 </li>
 <li><p>Wait for the build in Dockerhub of the newly created Tag</p></li>
-<li><p>Change the docker image used in Artemis to the newly created tag: <a class="reference external" href="https://github.com/ls1intum/Artemis/blob/develop/src/main/java/de/tum/in/www1/artemis/service/connectors/ContinuousIntegrationService.java">ContinuousIntegrationService.java</a></p></li>
+<li><p>Change the docker image used in Artemis to the newly created tag: <a class="reference external" href="https://github.com/ls1intum/Artemis/blob/develop/src/main/resources/config/application.yml">application.yml</a></p></li>
 <li><p>If the used docker container should also be changed for already created exercises you have to change the build plan of that exercise</p>
 <ul class="simple">
 <li><p>Change the docker image used by following this path: Configure Buildplan &gt; Default Job &gt; Docker &gt; Docker Image</p></li>
@@ -154,7 +156,7 @@ To reduce the time required for each test run, these docker containers already i
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="../testservers/" class="btn btn-neutral float-left" title="Test Servers" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="../../admin/registration/" class="btn btn-neutral float-right" title="User Registration" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="../cypress/" class="btn btn-neutral float-right" title="Cypress Bamboo Plans" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
