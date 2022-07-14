@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Artemis: Interactive Learning with Individual Feedback &mdash; Artemis  documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -13,6 +14,7 @@
         <script data-url_root="#" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex/" />
@@ -87,10 +89,10 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <div class="section" id="artemis-interactive-learning-with-individual-feedback">
-<span id="artemis"></span><h1>Artemis: Interactive Learning with Individual Feedback<a class="headerlink" href="#artemis-interactive-learning-with-individual-feedback" title="Permalink to this headline"></a></h1>
-<div class="section" id="main-features">
-<h2>Main features<a class="headerlink" href="#main-features" title="Permalink to this headline"></a></h2>
+  <section id="artemis-interactive-learning-with-individual-feedback">
+<span id="artemis"></span><h1>Artemis: Interactive Learning with Individual Feedback<a class="headerlink" href="#artemis-interactive-learning-with-individual-feedback" title="Permalink to this heading"></a></h1>
+<section id="main-features">
+<h2>Main features<a class="headerlink" href="#main-features" title="Permalink to this heading"></a></h2>
 <p>Artemis supports the following exercises:</p>
 <ol class="arabic simple">
 <li><p><a class="reference internal" href="user/exercises/programming/"><span class="doc">Programming exercises</span></a> with version control and automatic assessment with test cases and continuous integration</p></li>
@@ -257,10 +259,11 @@
 <li class="toctree-l3"><a class="reference internal" href="dev/guidelines/server/#proper-annotation-of-sql-query-parameters">17. Proper annotation of SQL query parameters</a></li>
 <li class="toctree-l3"><a class="reference internal" href="dev/guidelines/server/#sql-statement-formatting">18. SQL statement formatting</a></li>
 <li class="toctree-l3"><a class="reference internal" href="dev/guidelines/server/#avoid-the-usage-of-sub-queries">19. Avoid the usage of Sub-queries</a></li>
-<li class="toctree-l3"><a class="reference internal" href="dev/guidelines/server/#rest-endpoint-best-practices-for-authorization">20. REST endpoint best practices for authorization</a></li>
-<li class="toctree-l3"><a class="reference internal" href="dev/guidelines/server/#assert-using-the-most-specific-overload-method">21. Assert using the most specific overload method</a></li>
-<li class="toctree-l3"><a class="reference internal" href="dev/guidelines/server/#general-testing-tips">22. General Testing Tips</a></li>
-<li class="toctree-l3"><a class="reference internal" href="dev/guidelines/server/#avoid-using-mockbean">23. Avoid using &#64;MockBean</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dev/guidelines/server/#criteria-builder">20. Criteria Builder</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dev/guidelines/server/#rest-endpoint-best-practices-for-authorization">21. REST endpoint best practices for authorization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dev/guidelines/server/#assert-using-the-most-specific-overload-method">22. Assert using the most specific overload method</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dev/guidelines/server/#general-testing-tips">23. General Testing Tips</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dev/guidelines/server/#avoid-using-mockbean">24. Avoid using &#64;MockBean</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="dev/guidelines/client/">Client</a><ul>
@@ -295,6 +298,17 @@
 <li class="toctree-l3"><a class="reference internal" href="dev/guidelines/database/#cascade-types">3. Cascade Types</a></li>
 <li class="toctree-l3"><a class="reference internal" href="dev/guidelines/database/#best-practices">Best Practices</a></li>
 <li class="toctree-l3"><a class="reference internal" href="dev/guidelines/database/#solutions-for-known-issues">Solutions for known issues</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="dev/guidelines/criteria-builder/">Criteria Builder</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="dev/guidelines/criteria-builder/#requirements">1. Requirements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dev/guidelines/criteria-builder/#generating-the-query">2. Generating the query</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dev/guidelines/criteria-builder/#operations">3. Operations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dev/guidelines/criteria-builder/#joins">4. Joins</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dev/guidelines/criteria-builder/#sub-queries">5. Sub-Queries</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dev/guidelines/criteria-builder/#examples">6. Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dev/guidelines/criteria-builder/#limitations">7. Limitations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dev/guidelines/criteria-builder/#additional-links">8. Additional links</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="dev/guidelines/development-process/">Development Process (How to Merge Changes)</a><ul>
@@ -402,8 +416,8 @@
 </li>
 </ul>
 </div>
-</div>
-</div>
+</section>
+</section>
 
 
            </div>
