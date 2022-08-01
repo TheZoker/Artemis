@@ -41,9 +41,17 @@
               <p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../user/exercises/">Exercises</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../user/exam_mode/">Exam Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../user/lectures/">Lectures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../user/exam_mode/">Exams</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../user/orion/">Orion</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../user/communication/">Communication</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../user/plagiarism-check/">Plagiarism checks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../user/learning-analytics/">Learning Analytics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../user/notifications/">Notifications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../user/user-experience/">User Experience</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../user/grading/">Grading</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../user/courses/customizable/">Customizing Courses</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../user/scaling/">Scaling</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Contributor Guide</span></p>
 <ul class="current">
@@ -93,6 +101,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../testservers/">Test Servers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../docker/">Builds and Dependency Management</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../cypress/">Cypress Bamboo Plans</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../open-source/">Open-Source</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Administration Guide</span></p>
 <ul>
@@ -343,6 +352,7 @@ It gets activated when a particular jar file is detected on the classpath. The s
 <li><p>Always qualify a static class member reference with its class name and not with a reference or expression of that class’s type.</p></li>
 <li><p>Prefer using primitive types to classes, e.g. <code class="docutils literal notranslate"><span class="pre">long</span></code> instead of <code class="docutils literal notranslate"><span class="pre">Long</span></code>.</p></li>
 <li><p>Use <code class="docutils literal notranslate"><span class="pre">./gradlew</span> <span class="pre">spotlessCheck</span></code> and <code class="docutils literal notranslate"><span class="pre">./gradlew</span> <span class="pre">spotlessApply</span></code> to check Java code style and to automatically fix it.</p></li>
+<li><p>Don’t use <code class="docutils literal notranslate"><span class="pre">.collect(Collectors.toList())</span></code>. Instead use only <code class="docutils literal notranslate"><span class="pre">.toList()</span></code> for an unmodifiable list or <code class="docutils literal notranslate"><span class="pre">.collect(Collectors.toCollection(ArrayList::new))</span></code> to explicitly create a new ArrayList.</p></li>
 </ul>
 </section>
 <section id="avoid-service-dependencies">
@@ -507,7 +517,7 @@ These comments should contain information about what is tested specifically.</p>
 <span class="cm"> * Tests that borrow() in Book successfully sets the available attribute to false</span>
 <span class="cm"> */</span>
 <span class="nd">@Test</span>
-<span class="kd">public</span> <span class="kt">void</span> <span class="nf">testBorrowInBook</span><span class="p">()</span> <span class="p">{</span>
+<span class="kt">void</span> <span class="nf">testBorrowInBook</span><span class="p">()</span> <span class="p">{</span>
     <span class="c1">// Test Code</span>
 <span class="p">}</span>
 </pre></div>
@@ -515,7 +525,7 @@ These comments should contain information about what is tested specifically.</p>
 <p>Use appropriate and descriptive names for test cases. This makes it easier for other developers to understand what you actually test without looking deeper into it.
 This is the same reason why you should not name your variables int a, double b, String c, and so on. For example, if you want to test the method borrow in the class Book, testBorrowInBook() would be an appropriate name for the test case.</p>
 <div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="nd">@Test</span>
-<span class="kd">public</span> <span class="kt">void</span> <span class="nf">testBorrowInBook</span><span class="p">()</span> <span class="p">{</span>
+<span class="kt">void</span> <span class="nf">testBorrowInBook</span><span class="p">()</span> <span class="p">{</span>
     <span class="c1">// Test Code</span>
 <span class="p">}</span>
 </pre></div>
@@ -544,13 +554,13 @@ This is the same reason why you should not name your variables int a, double b, 
 Basically, every time <code class="docutils literal notranslate"><span class="pre">&#64;MockBean</span></code> appears in a class, the ApplicationContext cache gets marked as dirty, hence the runner will clean the cache after the test-class is done and restarts the application context.
 This leads to a large overhead, which tends to make the tests take a lot more time.</p>
 <p>Here is an example how to replace a <code class="docutils literal notranslate"><span class="pre">&#64;SpyBean</span></code>. We wanted to test an edge case which is only executed if an <code class="docutils literal notranslate"><span class="pre">IOException</span></code> is thrown. We did this by mocking the service method and making it throw an Exception.</p>
-<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">TestExport</span> <span class="kd">extends</span> <span class="n">AbstractSpringIntegrationBambooBitbucketJiraTest</span> <span class="p">{</span>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kd">class</span> <span class="nc">TestExport</span> <span class="kd">extends</span> <span class="n">AbstractSpringIntegrationBambooBitbucketJiraTest</span> <span class="p">{</span>
     <span class="nd">@SpyBean</span>
     <span class="kd">private</span> <span class="n">FileUploadSubmissionExportService</span> <span class="n">fileUploadSubmissionExportService</span><span class="p">;</span>
 
     <span class="nd">@Test</span>
     <span class="nd">@WithMockUser</span><span class="p">(</span><span class="n">username</span> <span class="o">=</span> <span class="s">&quot;instructor1&quot;</span><span class="p">,</span> <span class="n">roles</span> <span class="o">=</span> <span class="s">&quot;INSTRUCTOR&quot;</span><span class="p">)</span>
-    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">testExportAll_IOException</span><span class="p">()</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="p">{</span>
+    <span class="kt">void</span> <span class="nf">testExportAll_IOException</span><span class="p">()</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="p">{</span>
         <span class="n">doThrow</span><span class="p">(</span><span class="n">IOException</span><span class="p">.</span><span class="na">class</span><span class="p">).</span><span class="na">when</span><span class="p">(</span><span class="n">fileUploadSubmissionExportService</span><span class="p">).</span><span class="na">export</span><span class="p">(</span><span class="n">any</span><span class="p">(),</span> <span class="n">any</span><span class="p">());</span>
         <span class="n">request</span><span class="p">.</span><span class="na">postWithResponseBodyFile</span><span class="p">(</span><span class="s">&quot;/api/file-upload-export/&quot;</span> <span class="o">+</span> <span class="n">fileUploadExercise</span><span class="p">.</span><span class="na">getId</span><span class="p">(),</span> <span class="n">HttpStatus</span><span class="p">.</span><span class="na">BAD_REQUEST</span><span class="p">);</span>
     <span class="p">}</span>
@@ -560,11 +570,11 @@ This leads to a large overhead, which tends to make the tests take a lot more ti
 <p>As mentioned above, we should really avoid this.
 Instead we can use <a class="reference external" href="https://asolntsev.github.io/en/2020/07/11/mockito-static-methods/">Static Mocks</a>. When we look deeper in the <code class="docutils literal notranslate"><span class="pre">export()</span></code> method we find that there is a call of <code class="docutils literal notranslate"><span class="pre">File.newOutputStream(..)</span></code>.
 Now, instead of mocking the whole Service, we can just mock the static method, like this:</p>
-<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">TestExport</span> <span class="kd">extends</span> <span class="n">AbstractSpringIntegrationBambooBitbucketJiraTest</span> <span class="p">{</span>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kd">class</span> <span class="nc">TestExport</span> <span class="kd">extends</span> <span class="n">AbstractSpringIntegrationBambooBitbucketJiraTest</span> <span class="p">{</span>
     <span class="c1">// No beans used anymore</span>
     <span class="nd">@Test</span>
     <span class="nd">@WithMockUser</span><span class="p">(</span><span class="n">username</span> <span class="o">=</span> <span class="s">&quot;instructor1&quot;</span><span class="p">,</span> <span class="n">roles</span> <span class="o">=</span> <span class="s">&quot;INSTRUCTOR&quot;</span><span class="p">)</span>
-    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">testExportAll_IOException</span><span class="p">()</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="p">{</span>
+    <span class="kt">void</span> <span class="nf">testExportAll_IOException</span><span class="p">()</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="p">{</span>
         <span class="n">MockedStatic</span><span class="o">&lt;</span><span class="n">Files</span><span class="o">&gt;</span> <span class="n">mockedFiles</span> <span class="o">=</span> <span class="n">mockStatic</span><span class="p">(</span><span class="n">Files</span><span class="p">.</span><span class="na">class</span><span class="p">);</span>
         <span class="n">mockedFiles</span><span class="p">.</span><span class="na">when</span><span class="p">(()</span> <span class="o">-&gt;</span> <span class="n">Files</span><span class="p">.</span><span class="na">newOutputStream</span><span class="p">(</span><span class="n">any</span><span class="p">(),</span> <span class="n">any</span><span class="p">())).</span><span class="na">thenThrow</span><span class="p">(</span><span class="n">IOException</span><span class="p">.</span><span class="na">class</span><span class="p">);</span>
         <span class="n">request</span><span class="p">.</span><span class="na">postWithResponseBodyFile</span><span class="p">(</span><span class="s">&quot;/api/file-upload-export/&quot;</span> <span class="o">+</span> <span class="n">fileUploadExercise</span><span class="p">.</span><span class="na">getId</span><span class="p">(),</span> <span class="n">HttpStatus</span><span class="p">.</span><span class="na">BAD_REQUEST</span><span class="p">);</span>

@@ -21,7 +21,7 @@
     <link rel="index" title="Index" href="../../../genindex/" />
     <link rel="search" title="Search" href="../../../search/" />
     <link rel="next" title="Quiz exercise" href="../quiz/" />
-    <link rel="prev" title="General Information" href="../general/" /> 
+    <link rel="prev" title="Assessment" href="../assessment/" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -43,6 +43,7 @@
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="../">Exercises</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../general/">General Information</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../assessment/">Assessment</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Programming Exercise</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#overview">Overview</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#setup">Setup</a><ul>
@@ -81,11 +82,20 @@
 <li class="toctree-l2"><a class="reference internal" href="../modeling/">Modeling exercise</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../textual/">Textual exercise</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../file-upload/">File Upload Exercise</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../team-exercises/">Team exercises</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../../exam_mode/">Exam Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../lectures/">Lectures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../exam_mode/">Exams</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../orion/">Orion</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../communication/">Communication</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../plagiarism-check/">Plagiarism checks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../learning-analytics/">Learning Analytics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../notifications/">Notifications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../user-experience/">User Experience</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../grading/">Grading</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../courses/customizable/">Customizing Courses</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../scaling/">Scaling</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Contributor Guide</span></p>
 <ul>
@@ -98,6 +108,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../dev/testservers/">Test Servers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../dev/docker/">Builds and Dependency Management</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../dev/cypress/">Cypress Bamboo Plans</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../dev/open-source/">Open-Source</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Administration Guide</span></p>
 <ul>
@@ -134,7 +145,7 @@
            <div itemprop="articleBody">
              
   <section id="programming-exercise">
-<h1>Programming Exercise<a class="headerlink" href="#programming-exercise" title="Permalink to this heading"></a></h1>
+<span id="programming"></span><h1>Programming Exercise<a class="headerlink" href="#programming-exercise" title="Permalink to this heading"></a></h1>
 <div class="contents local topic" id="content-of-this-document">
 <p class="topic-title">Content of this document</p>
 <ul class="simple">
@@ -312,7 +323,7 @@ The table below provides an overview of the supported features:</p>
 <td><p>yes</p></td>
 <td><p>yes</p></td>
 <td><p>no</p></td>
-<td><p>yes (only for Gradle on Atlassian Setup)</p></td>
+<td><p>yes</p></td>
 </tr>
 <tr class="row-odd"><td><p>Python</p></td>
 <td><p>yes</p></td>
@@ -357,7 +368,7 @@ The table below provides an overview of the supported features:</p>
 <td><p>yes</p></td>
 <td><p>no</p></td>
 <td><p>no</p></td>
-<td><p>no</p></td>
+<td><p>yes</p></td>
 </tr>
 <tr class="row-even"><td><p>VHDL</p></td>
 <td><p>no</p></td>
@@ -646,7 +657,7 @@ This option is useful to compare the student’s submission with the sample solu
 <li><p><strong>Allow Offline IDE:</strong> Allow students to clone their personal repository and work on the exercise with their preferred IDE.</p></li>
 <li><p><strong>Allow Online Editor:</strong> Allow students to work on the exercise using the Artemis Online Code Editor.</p></li>
 <li><p><strong>Record Testwise Coverage:</strong> Activate this option to record the testwise coverage for the solution repository.
-This option is only available for Java-Gradle-projects with non-sequential test runs.</p>
+This option is only available for Java/Kotlin-exercises with non-sequential test runs.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>At least one of the options <strong>Allow Offline IDE:</strong> and <strong>Allow Online Editor:</strong> must be active</p>
@@ -695,7 +706,7 @@ configure parts of the build plan themselves.</p></li>
 <li><p><strong>Alternative 1:</strong> Clone the 3 repositories and adapt the code on your local computer in your preferred development environment (e.g. Eclipse).</p>
 <ul>
 <li><p>To execute tests, copy the template (or solution) code into a folder <strong>assignment</strong> in the test repository and execute the tests (e.g. using maven clean test)</p></li>
-<li><p>Commit and push your changes <img alt="submit" src="../../../_images/submit2.png" /></p></li>
+<li><p>Commit and push your changes <img alt="submit" src="../../../_images/submit3.png" /></p></li>
 <li><p><strong>Notes for Haskell:</strong> In addition to the assignment folder, the executables of the build file expect the solution repository checked out in the <strong>solution</strong> subdirectory of the test folder and also allow for a <strong>template</strong> subdirectory to easily test the template on your local machine.
 You can use the following script to conveniently checkout an exercise and create the right folder structure:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/sh</span>
@@ -2174,8 +2185,6 @@ still compile student code with the latest Java version and only the test code w
 <li><p>The Reflection API is limited when it comes to constant attributes. Constant attributes are static final attributes
 with a primitive or <code class="docutils literal notranslate"><span class="pre">String</span></code> type. Java inlines such attributes during compile-time, which makes it more or less
 impossible to change the value during runtime.</p></li>
-<li><p>Interface methods are always <code class="docutils literal notranslate"><span class="pre">public</span> <span class="pre">abstract</span></code>, so you shouldn’t explicitly declare them as either <code class="docutils literal notranslate"><span class="pre">public</span></code> or
-<code class="docutils literal notranslate"><span class="pre">abstract</span></code>. This is especially important when creating/writing structural tests.</p></li>
 <li><p>Be careful with long output, arrays or <code class="docutils literal notranslate"><span class="pre">Strings</span></code>. This might be unreadable in Artemis or even cut of after 5000 characters.</p></li>
 </ul>
 </li>
@@ -2212,7 +2221,7 @@ Defaults to <code class="docutils literal notranslate"><span class="pre">false</
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="../general/" class="btn btn-neutral float-left" title="General Information" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../assessment/" class="btn btn-neutral float-left" title="Assessment" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="../quiz/" class="btn btn-neutral float-right" title="Quiz exercise" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
