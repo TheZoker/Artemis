@@ -293,24 +293,46 @@ For more details, please visit the :doc:`./criteria-builder` page.
 21. REST endpoint best practices for authorization
 ==================================================
 
-To prevent unauthorized access to resources Artemis employs a two-step system:
+To reject unauthorized requests as early as possible, Artemis employs a two-step system:
 
-#. ``PreAuthorize`` annotations are responsible for blocking users with wrong or missing authorization roles without querying the database.
+#. ``PreAuthorize`` and ``Enforce`` annotations are responsible for blocking users with wrong or missing authorization roles without querying the database.
 #. The ``AuthorizationCheckService`` is responsible for checking access rights to individual resources by querying the database.
 
-Because the first method without database queries is substantially faster, always annotate your REST endpoints with ``@PreAuthorize``. Pass the role with the *least* permissions as parameter to the ``hasRole`` method.
+Because the first method without database queries is substantially faster, always annotate your REST endpoints with the corresponding annotation. Always use the annotation for the minimum role that has access.
 The following example makes the call only accessible to ADMIN and INSTRUCTOR users:
 
 .. code-block:: java
 
     @PreAuthorize("hasRole('INSTRUCTOR')")
     public ResponseEntity<ProgrammingExercise> getProgrammingExercise(@PathVariable long exerciseId) {
+        var exercise = programmingExerciseRepository.findById(exerciseId);
+        authCheckService.checkHasAtLeastRoleForExerciseElseThrow(Role.INSTRUCTOR, exercise, null);
+        [...]
+        return ResponseEntity.ok(programmingExerciseRepository.findById(exerciseId));
     }
 
 Artemis distinguishes between six different roles: ADMIN, INSTRUCTOR, EDITOR, TA (teaching assistant), USER and ANONYMOUS.
 Each of the roles has the all the access rights of the roles following it, e.g. ANONYMOUS has almost no rights, while ADMIN users can access every page.
 
-If a user passes the ``PreAuthorize`` check, the access to individual resources like courses and exercises still has to be checked. (A user can be a teaching assistant in one course, but only a student in another, for example.)
+The table contains all annotations for the corresponding minimum role. Different annotations get used during migration.
+
++------------------+----------------------------------------+
+| **Minimum Role** | **Endpoint Annotation**                |
++------------------+----------------------------------------+
+| ADMIN            | @EnforceAdmin                          |
++------------------+----------------------------------------+
+| INSTRUCTOR       | @PreAuthorize("hasRole('INSTRUCTOR')") |
++------------------+----------------------------------------+
+| EDITOR           | @PreAuthorize("hasRole('EDITOR')")     |
++------------------+----------------------------------------+
+| TA               | @PreAuthorize("hasRole('TA')")         |
++------------------+----------------------------------------+
+| USER             | @PreAuthorize("hasRole('USER')")       |
++------------------+----------------------------------------+
+| ANONYMOUS        | @PreAuthorize("permitAll()")           |
++------------------+----------------------------------------+
+
+If a user passes the pre-authorization, the access to individual resources like courses and exercises still has to be checked. For example, a user can be a teaching assistant in one course, but only a student in another.
 However, do not fetch the user from the database yourself (unless you need to re-use the user object), but only hand a role to the ``AuthorizationCheckService``:
 
 .. code-block:: java
@@ -418,8 +440,30 @@ https://www.baeldung.com/spring-tests
 
 If you want to write tests for Programming Exercises to test student's submissions check out `this <https://confluence.ase.in.tum.de/display/ArTEMiS/Best+Practices+for+writing+Java+Programming+Exercise+Tests+in+Artemis>`__.
 
+24. Counting database query calls within tests
+==============================================
 
-24. Avoid using @MockBean
+It's possible to write tests that check how many database calls are performed during a REST call. This is useful to ensure that code changes don't lead to more database calls,
+or at least to remind developers in case they do. It's especially important for commonly used endpoints that users access multiple times or every time they use Artemis.
+However, we should consider carefully before adding such assertions to a test as it makes the test more tedious to maintain.
+
+An example on how to track how many database calls are performed during a REST call is shown below. It uses the ``HibernateQueryInterceptor`` which counts the number of queries.
+For ease of use, a custom assert ``assertThatDb`` was added that allows to do the check in one line. It also returns the original result of the REST call and so allows you to
+add any other assertions to the test, as shown below.
+
+.. code-block:: java
+
+    class TestClass {
+
+        @Test
+        @WithMockUser(username = "instructor1", roles = "INSTRUCTOR")
+        void testQueryCount() throws Exception {
+            Course course = assertThatDb(() -> request.get("/api/courses/" + courses.get(0).getId() + "/for-dashboard", HttpStatus.OK, Course.class)).hasBeenCalledTimes(3);
+            assertThat(course).isNotNull();
+        }
+    }
+
+25. Avoid using @MockBean
 =========================
 
 Do not use the ``@SpyBean`` or ``@MockBean`` annotation unless absolutely necessary, or possibly in an abstract Superclass. If you want to see why in more detail, take a look `here <https://www.baeldung.com/spring-tests>`__.

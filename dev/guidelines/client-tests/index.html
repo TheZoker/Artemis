@@ -85,6 +85,10 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../admin/troubleshooting/">Troubleshooting</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../admin/knownIssues/">Known Issues</a></li>
 </ul>
+<p class="caption" role="heading"><span class="caption-text">Research</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../research/publications/">Publications</a></li>
+</ul>
 
         </div>
       </div>
@@ -305,7 +309,7 @@ For example, if you have a component that loads and displays some data when the 
     <span class="nx">fixture</span><span class="p">.</span><span class="nx">detectChanges</span><span class="p">();</span>
 
     <span class="nx">expect</span><span class="p">(</span><span class="nx">saveExerciseWithoutReevaluationSpy</span><span class="p">).</span><span class="nx">toHaveBeenCalledOnce</span><span class="p">();</span>
-    <span class="nx">expect</span><span class="p">(</span><span class="nx">emitSpy</span><span class="p">).</span><span class="nx">toHaveBeenCalled</span><span class="p">();</span>
+    <span class="nx">expect</span><span class="p">(</span><span class="nx">emitSpy</span><span class="p">).</span><span class="nx">toHaveBeenCalledOnce</span><span class="p">();</span>
 <span class="p">});</span>
 </pre></div>
 </div>
@@ -366,7 +370,7 @@ For example, if you have a component that loads and displays some data when the 
 </div>
 </div></blockquote>
 </li>
-<li><p>If you have minimized <code class="code docutils literal notranslate"><span class="pre">expect</span></code>, use the verification function that provides the most meaningful error message in case the verification fails. You can use verification functions from core Jest &lt;<a class="reference external" href="https://jestjs.io/docs/expect">https://jestjs.io/docs/expect</a>&gt; or from Jest Extended &lt;<a class="reference external" href="https://github.com/jest-community/jest-extended#api">https://github.com/jest-community/jest-extended#api</a>&gt;.</p></li>
+<li><p>If you have minimized <code class="code docutils literal notranslate"><span class="pre">expect</span></code>, use the verification function that provides the most meaningful error message in case the verification fails. You can use verification functions from core <a class="reference external" href="https://jestjs.io/docs/expect">Jest</a> or from <a class="reference external" href="https://jest-extended.jestcommunity.dev/docs/matchers">Jest Extended</a>.</p></li>
 <li><p>For situations described below, only use the uniform solution to keep the codebase as consistent as possible.</p></li>
 </ol>
 <blockquote>
