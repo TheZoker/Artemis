@@ -1,0 +1,57 @@
+--- 
+kind: pipeline 
+type: docker 
+name: Build Artemis
+ 
+steps:
+  - name: restore-cache
+    image: drillster/drone-volume-cache
+    volumes:
+      - name: cache
+        path: /cache
+    settings:
+      restore: true
+      mount:
+        - ./node_modules
+        - ./.gradle
+  - name: Build Artemis
+    image: gradle:7
+    commands:
+      - ./gradlew -Pprod -Pwar clean bootWar --warning-mode all
+    environment:
+      GRADLE_OPTS: -Dorg.gradle.jvmargs="-XX:MaxMetaspaceSize=1g"
+      NODE_OPTIONS: --max_old_space_size=6144
+  # - name: run cypress tests
+  #   image: docker
+  #   volumes:
+  #     - name: docker_sock
+  #       path: /var/run/docker.sock
+  #   commands:
+  #     - docker compose --env-file ./src/main/docker/cypress/.env -f ./src/main/docker/cypress/docker-compose.yml up -d
+  #     - docker compose down
+  - name: Build Docker Image
+    image: plugins/docker
+    settings:
+      registry: git.zkr.dev
+      username: FlorianGareis
+      password:
+        from_secret: gitea-password
+      repo: git.zkr.dev/artemis/artemis
+      tags: ${DRONE_COMMIT_BRANCH}
+      cache_from: "eclipse-temurin:17-jre"
+      dockerfile: src/main/docker/Dockerfile
+  - name: rebuild-cache
+    image: drillster/drone-volume-cache
+    volumes:
+      - name: cache
+        path: /cache
+    settings:
+      rebuild: true
+      mount:
+        - ./node_modules
+        - ./.gradle
+
+volumes:
+  - name: cache
+    host:
+      path: /tmp/cache

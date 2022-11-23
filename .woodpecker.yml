@@ -1,0 +1,15 @@
+pipeline:
+  build:
+    image: gradle
+    commands:
+      - ./gradlew -Pprod -Pwar clean bootWar
+    environment:
+      GRADLE_OPTS: -Dorg.gradle.jvmargs="-XX:MaxMetaspaceSize=1g"
+      NODE_OPTIONS: --max_old_space_size=6144
+  cypress:
+    image: docker
+    commands:
+      - docker compose --env-file ./src/main/docker/cypress/.env -f ./src/main/docker/cypress/docker-compose.yml up -d
+      - docker compose down 
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock

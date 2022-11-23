@@ -73,6 +73,6 @@ export default defineConfig({
         },
         specPattern: ['init/ImportUsers.cy.ts', 'e2e/**/*.cy.{js,jsx,ts,tsx}'],
         supportFile: 'support/index.ts',
-        baseUrl: 'http://localhost:8080',
+        baseUrl: 'http://192.168.3.130',
     },
 });
