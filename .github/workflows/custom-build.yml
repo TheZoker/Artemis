@@ -1,0 +1,73 @@
+name: Custom Build
+
+on:
+  push:
+    branches-ignore:
+    - develop
+
+# Keep in sync with codeql-analysis.yml and test.yml
+env:
+  CI: true
+  node: 16.x
+  java: 17
+  RAW_URL: https://raw.githubusercontent.com/${{ github.repository }}/${{ github.sha }}
+
+jobs:
+  build:
+    if: github.repository_owner == 'thezoker'
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '${{ env.node }}'
+        cache: 'npm'
+    - name: Setup Java
+      uses: actions/setup-java@v3
+      with:
+        distribution: 'zulu'
+        java-version: '${{ env.java }}'
+        cache: 'gradle'
+    - name: Production Build
+      run: ./gradlew -Pprod -Pwar clean bootWar
+      env:
+        NODE_OPTIONS: --max_old_space_size=6144
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: Artemis.war
+        path: build/libs/Artemis-*.war
+
+  docker:
+    if: github.repository_owner == 'thezoker'
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Download Artifact
+      uses: actions/download-artifact@v3
+      with:
+        name: Artemis.war
+    - name: Copy Dockerfile to Build Directory
+      run: cp src/main/docker/Dockerfile .
+    - name: Build Docker Image
+      run: docker build --build-arg WAR_PATH=. -t artemis .
+
+    # Push to GitHub Container Registry
+    - name: Login to GitHub Container Registry
+      uses: docker/login-action@v2
+      with:
+        registry: ghcr.io
+        username: ${{ github.repository_owner }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+    - name: Tag Generator
+      id: tag-generator
+      run: |
+        echo ::set-output name=BRANCH::$(echo ${GITHUB_REF_NAME} | sed -e 's/\//-/g')
+    - name: Push to GitHub Container Registry
+      env:
+        TAG: ${{ steps.tag-generator.outputs.BRANCH }}
+      run: |
+        docker tag artemis ghcr.io/thezoker/artemis:$TAG
+        docker push ghcr.io/thezoker/artemis:$TAG
