@@ -1,3 +1,4 @@
+import { clear } from 'console';
 import dayjs from 'dayjs/esm';
 import { dayjsToString } from '../../utils';
 
@@ -11,6 +12,18 @@ export class ExamCreationPage {
      */
     setTitle(title: string) {
         cy.get('#title').type(title);
+    }
+
+    /**
+     * Sets exam to test mode
+     * @param testExam if it is a test exam
+     */
+    setTestMode(testExam: boolean) {
+        if (testExam) {
+            cy.get('#exam-mode-picker #mode-test-exam').click();
+        } else {
+            cy.get('#exam-mode-picker #mode-exam').click();
+        }
     }
 
     /**
@@ -32,6 +45,13 @@ export class ExamCreationPage {
      */
     setEndDate(date: dayjs.Dayjs) {
         this.enterDate('#endDate', date);
+    }
+
+    /**
+     * @param time the working time
+     */
+    setWorkingTime(time: number) {
+        cy.get('#workingTimeInMinutes').clear().type(time.toString());
     }
 
     /**
