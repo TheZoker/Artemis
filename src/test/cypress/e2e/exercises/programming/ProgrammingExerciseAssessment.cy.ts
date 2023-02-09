@@ -88,7 +88,7 @@ describe('Programming exercise assessment', () => {
 
     function acceptComplaintAsInstructor() {
         cy.login(instructor, `/course-management/${course.id}/complaints`);
-        programmingAssessment.acceptComplaint('Makes sense').then((request: Interception) => {
+        programmingAssessment.acceptComplaint('Makes sense', false).then((request: Interception) => {
             expect(request.response!.statusCode).to.equal(200);
         });
     }

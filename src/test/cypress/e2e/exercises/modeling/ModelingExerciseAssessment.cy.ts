@@ -2,7 +2,7 @@ import { ModelingExercise } from 'app/entities/modeling-exercise.model';
 import { Course } from 'app/entities/course.model';
 import { artemis } from '../../../support/ArtemisTesting';
 import day from 'dayjs/esm';
-import { convertCourseAfterMultiPart } from '../../../support/requests/CourseManagementRequests';
+import { convertCourseAfterMultiPart, CypressExerciseType } from '../../../support/requests/CourseManagementRequests';
 
 // pageobjects
 const assessmentEditor = artemis.pageobjects.assessment.modeling;
@@ -79,7 +79,7 @@ describe('Modeling Exercise Assessment Spec', () => {
         it('Instructor can see complaint and reject it', () => {
             cy.login(instructor, `/course-management/${course.id}/complaints`);
             courseAssessmentDashboard.showTheComplaint();
-            assessmentEditor.rejectComplaint('You are wrong.');
+            assessmentEditor.rejectComplaint('You are wrong.', false);
         });
     });
 
