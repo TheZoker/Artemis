@@ -41,6 +41,7 @@ import { StudentExamManagementPage } from './exam/StudentExamManagementPage';
 import { CourseExercisePage } from './course/CourseExercisePage';
 import { CourseCreationPage } from './course/CourseCreationPage';
 import { ExamParticipation } from './exam/ExamParticipation';
+import { ExamTestRunPage } from './exam/ExamTestRunPage';
 
 /**
  * A class which encapsulates all pageobjects, which can be used to automate the Artemis UI.
@@ -66,6 +67,7 @@ export class ArtemisPageobjects {
         exerciseGroups: new ExamExerciseGroupsPage(),
         exerciseGroupCreation: new ExamExerciseGroupCreationPage(),
         studentExamManagement: new StudentExamManagementPage(),
+        testRun: new ExamTestRunPage(),
     };
     exercise = {
         result: new ExerciseResultPage(),
