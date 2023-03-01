@@ -34,7 +34,11 @@ export class OnlineEditorPage {
      */
     typeSubmission(exerciseID: number, submission: ProgrammingExerciseSubmission, packageName: string) {
         for (const newFile of submission.files) {
-            this.createFileInRootPackage(exerciseID, newFile.name, packageName);
+            if (submission.createFilesInRootFolder) {
+                this.createFileInRootFolder(exerciseID, newFile.name);
+            } else {
+                this.createFileInRootPackage(exerciseID, newFile.name, packageName);
+            }
             cy.fixture(newFile.path).then((fileContent) => {
                 const sanitizedContent = this.sanitizeInput(fileContent, packageName);
                 const lines = sanitizedContent.split(/\r?\n/);
@@ -113,6 +117,28 @@ export class OnlineEditorPage {
     }
 
     /**
+     * Creates a file at root level in the file browser.
+     * @param exerciseID the ID of the exercise
+     * @param fileName the name of the new file (e.g. "Policy.java")
+     */
+    createFileInRootFolder(exerciseID: number, fileName: string) {
+        const postRequestId = 'createFile' + fileName;
+        const getRequestId = 'getFile' + fileName;
+        const requestPath = BASE_API + 'repository/*/file?file=' + fileName;
+        getExercise(exerciseID).find('[id="create_file_root"]').click().wait(500);
+        cy.intercept(POST, requestPath).as(postRequestId);
+        cy.intercept(GET, requestPath).as(getRequestId);
+        getExercise(exerciseID).find('#file-browser-create-node').type(fileName).wait(500).type('{enter}');
+        cy.wait('@' + postRequestId)
+            .its('response.statusCode')
+            .should('eq', 200);
+        cy.wait('@' + getRequestId)
+            .its('response.statusCode')
+            .should('eq', 200);
+        this.findFileBrowser(exerciseID).contains(fileName).should('be.visible').wait(500);
+    }
+
+    /**
      * Creates a file at root level (in the main package) in the file browser.
      * @param exerciseID the ID of the exercise
      * @param fileName the name of the new file (e.g. "Policy.java")
@@ -177,9 +203,9 @@ export class OnlineEditorPage {
         // Decompress the file tree to access the parent folder
         this.toggleCompressFileTree(exerciseID);
         // We delete all existing files, so we can create new files and don't have to delete their already existing content
-        this.deleteFile(exerciseID, 'Client.java');
-        this.deleteFile(exerciseID, 'BubbleSort.java');
-        this.deleteFile(exerciseID, 'MergeSort.java');
+        for (const deleteFile of submission.deleteFiles) {
+            this.deleteFile(exerciseID, deleteFile);
+        }
         this.typeSubmission(exerciseID, submission, packageName);
         this.submit(exerciseID);
         verifyOutput();
@@ -206,6 +232,8 @@ export class OnlineEditorPage {
  * @param files An array of containers, which contain the file path of the changed file as well as its name.
  */
 export class ProgrammingExerciseSubmission {
+    deleteFiles: string[];
+    createFilesInRootFolder: boolean;
     files: ProgrammingExerciseFile[];
     expectedResult: string;
 }
