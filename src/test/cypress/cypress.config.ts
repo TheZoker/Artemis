@@ -38,7 +38,7 @@ export default defineConfig({
     fixturesFolder: 'fixtures',
     screenshotsFolder: 'screenshots',
     videosFolder: 'videos',
-    video: false,
+    video: true,
     screenshotOnRunFailure: false,
     viewportWidth: 1920,
     viewportHeight: 1080,
