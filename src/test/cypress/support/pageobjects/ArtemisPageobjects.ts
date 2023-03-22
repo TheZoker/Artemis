@@ -43,6 +43,7 @@ import { CourseCreationPage } from './course/CourseCreationPage';
 import { ExamParticipation } from './exam/ExamParticipation';
 import { StudentAssessmentPage } from './assessment/StudentAssessmentPage';
 import { ExamTestRunPage } from './exam/ExamTestRunPage';
+import { CourseMessagesPage } from './course/CourseMessages';
 
 /**
  * A class which encapsulates all pageobjects, which can be used to automate the Artemis UI.
@@ -57,6 +58,7 @@ export class ArtemisPageobjects {
         list: new CoursesPage(),
         overview: new CourseOverviewPage(),
         exercise: new CourseExercisePage(),
+        messages: new CourseMessagesPage(),
     };
     exam = {
         details: new ExamDetailsPage(),
