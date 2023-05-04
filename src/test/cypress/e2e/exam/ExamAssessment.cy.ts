@@ -117,12 +117,16 @@ describe('Exam assessment', () => {
         it('Assess a text exercise submission', () => {
             cy.login(instructor);
             examManagement.verifySubmitted(course.id!, exam.id!, studentOneName);
+            cy.fixture('loremIpsum.txt').then((text) => {
+                examManagement.checkTextSubmissionContent(course.id!, exam.id!, studentOneName, text);
+            });
             cy.login(tutor);
             startAssessing(course.id!, exam.id!, 60000);
             examAssessment.addNewFeedback(7, 'Good job');
             examAssessment.submitTextAssessment().then((assessmentResponse: Interception) => {
                 expect(assessmentResponse.response!.statusCode).to.equal(200);
             });
+            examManagement.checkExerciseSubmission(course.id!, exam.id!, studentOneName, '70%, 7 points');
             cy.login(studentOne, '/courses/' + course.id + '/exams/' + exam.id);
             programmingExerciseEditor.getResultScore().should('contain.text', '70%, 7 points').and('be.visible');
             textAssessmentSuccessful = true;
@@ -156,7 +160,7 @@ describe('Exam assessment', () => {
             if (dayjs().isBefore(resultDate)) {
                 cy.wait(resultDate.diff(dayjs(), 'ms') + 10000);
             }
-            examManagement.checkQuizSubmission(course.id!, exam.id!, studentOneName, '50%, 5 points');
+            examManagement.checkExerciseSubmission(course.id!, exam.id!, studentOneName, '50%, 5 points');
             cy.login(studentOne, '/courses/' + course.id + '/exams/' + exam.id);
             // Sometimes the feedback fails to load properly on the first load...
             const resultSelector = '#result-score';

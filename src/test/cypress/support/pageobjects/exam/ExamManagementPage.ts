@@ -76,7 +76,14 @@ export class ExamManagementPage {
         cy.get('#student-exam').find('.datatable-body-row').filter(`:contains("${username}")`).find('.submitted').contains('Yes');
     }
 
-    checkQuizSubmission(courseID: number, examID: number, username: string, score: string) {
+    checkTextSubmissionContent(courseID: number, examID: number, username: string, text: string) {
+        cy.visit(`/course-management/${courseID}/exams/${examID}/student-exams`);
+        cy.get('#student-exam').find('.datatable-body-row').filter(`:contains("${username}")`).find('.view-submission').click();
+        cy.get('.summery').click();
+        cy.get('jhi-text-exam-summary').contains(text);
+    }
+
+    checkExerciseSubmission(courseID: number, examID: number, username: string, score: string) {
         cy.visit(`/course-management/${courseID}/exams/${examID}/student-exams`);
         cy.get('#student-exam').find('.datatable-body-row').filter(`:contains("${username}")`).find('.view-submission').click();
         cy.get('.summery').click();
