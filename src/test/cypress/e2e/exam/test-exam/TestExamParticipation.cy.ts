@@ -5,7 +5,7 @@ import allSuccessful from '../../../fixtures/exercise/programming/all_successful
 import buildError from '../../../fixtures/exercise/programming/build_error/submission.json';
 import { Course } from 'app/entities/course.model';
 import { generateUUID } from '../../../support/utils';
-import { EXERCISE_TYPE } from '../../../support/constants';
+import { ExerciseType } from '../../../support/constants';
 import { Exercise } from 'src/test/cypress/support/pageobjects/exam/ExamParticipation';
 import { examExerciseGroupCreation, examNavigation, examParticipation, examStartEnd } from 'src/test/cypress/support/artemis';
 import { admin, studentOne, studentThree, studentTwo } from 'src/test/cypress/support/users';
@@ -45,18 +45,18 @@ describe('Test exam participation', () => {
             courseManagementRequest.createExam(examContent).then((examResponse) => {
                 exam = examResponse.body;
                 Promise.all([
-                    examExerciseGroupCreation.addGroupWithExercise(exam, EXERCISE_TYPE.Text, { textFixture }),
-                    examExerciseGroupCreation.addGroupWithExercise(exam, EXERCISE_TYPE.Text, { textFixture }),
-                    examExerciseGroupCreation.addGroupWithExercise(exam, EXERCISE_TYPE.Text, { textFixture }),
+                    examExerciseGroupCreation.addGroupWithExercise(exam, ExerciseType.TEXT, { textFixture }),
+                    examExerciseGroupCreation.addGroupWithExercise(exam, ExerciseType.TEXT, { textFixture }),
+                    examExerciseGroupCreation.addGroupWithExercise(exam, ExerciseType.TEXT, { textFixture }),
 
-                    examExerciseGroupCreation.addGroupWithExercise(exam, EXERCISE_TYPE.Programming, { submission: allSuccessful, expectedScore: 100 }),
-                    examExerciseGroupCreation.addGroupWithExercise(exam, EXERCISE_TYPE.Programming, { submission: buildError, expectedScore: 0 }),
+                    examExerciseGroupCreation.addGroupWithExercise(exam, ExerciseType.PROGRAMMING, { submission: allSuccessful, expectedScore: 100 }),
+                    examExerciseGroupCreation.addGroupWithExercise(exam, ExerciseType.PROGRAMMING, { submission: buildError, expectedScore: 0 }),
 
-                    examExerciseGroupCreation.addGroupWithExercise(exam, EXERCISE_TYPE.Quiz, { quizExerciseID: 0 }),
-                    examExerciseGroupCreation.addGroupWithExercise(exam, EXERCISE_TYPE.Quiz, { quizExerciseID: 0 }),
+                    examExerciseGroupCreation.addGroupWithExercise(exam, ExerciseType.QUIZ, { quizExerciseID: 0 }),
+                    examExerciseGroupCreation.addGroupWithExercise(exam, ExerciseType.QUIZ, { quizExerciseID: 0 }),
 
-                    examExerciseGroupCreation.addGroupWithExercise(exam, EXERCISE_TYPE.Modeling),
-                    examExerciseGroupCreation.addGroupWithExercise(exam, EXERCISE_TYPE.Modeling),
+                    examExerciseGroupCreation.addGroupWithExercise(exam, ExerciseType.MODELING),
+                    examExerciseGroupCreation.addGroupWithExercise(exam, ExerciseType.MODELING),
                 ]).then((responses) => {
                     exerciseArray = exerciseArray.concat(responses);
                 });
@@ -74,7 +74,7 @@ describe('Test exam participation', () => {
             for (let j = 0; j < exerciseArray.length; j++) {
                 const exercise = exerciseArray[j];
                 examParticipation.verifyExerciseTitleOnFinalPage(exercise.id, exercise.title);
-                if (exercise.type === EXERCISE_TYPE.Text) {
+                if (exercise.type === ExerciseType.TEXT) {
                     examParticipation.verifyTextExerciseOnFinalPage(exercise.additionalData!.textFixture!);
                 }
             }
@@ -88,7 +88,7 @@ describe('Test exam participation', () => {
                 const exercise = exerciseArray[j];
                 // Skip programming exercise this time to save execution time
                 // (we also need to use the navigation bar here, since programming  exercises do not have a "Save and continue" button)
-                if (exercise.type == EXERCISE_TYPE.Programming) {
+                if (exercise.type == ExerciseType.PROGRAMMING) {
                     examNavigation.openExerciseAtIndex(j + 1);
                 } else {
                     examParticipation.checkExerciseTitle(exerciseArray[j].id, exerciseArray[j].title);
@@ -105,7 +105,7 @@ describe('Test exam participation', () => {
                 const exercise = exerciseArray[j];
                 // Skip programming exercise this time to save execution time
                 // (we also need to use the navigation bar here, since programming  exercises do not have a "Save and continue" button)
-                if (exercise.type == EXERCISE_TYPE.Programming) {
+                if (exercise.type == ExerciseType.PROGRAMMING) {
                     continue;
                 } else {
                     examNavigation.openExerciseOverview();
@@ -138,7 +138,7 @@ describe('Test exam participation', () => {
                 .build();
             courseManagementRequest.createExam(examContent).then((examResponse) => {
                 exam = examResponse.body;
-                examExerciseGroupCreation.addGroupWithExercise(exam, EXERCISE_TYPE.Text, { textFixture }).then((response) => {
+                examExerciseGroupCreation.addGroupWithExercise(exam, ExerciseType.TEXT, { textFixture }).then((response) => {
                     exerciseArray.push(response);
                 });
             });
