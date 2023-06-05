@@ -1,8 +1,8 @@
 import { Exam } from 'app/entities/exam.model';
 import { ExamBuilder, convertCourseAfterMultiPart } from '../../../support/requests/CourseManagementRequests';
 import dayjs from 'dayjs/esm';
-import allSuccessful from '../../../fixtures/exercise/programming/all_successful/submission.json';
-import buildError from '../../../fixtures/exercise/programming/build_error/submission.json';
+import javaAllSuccessful from '../../../fixtures/exercise/programming/java/all_successful/submission.json';
+import javaBuildError from '../../../fixtures/exercise/programming/java/build_error/submission.json';
 import { Course } from 'app/entities/course.model';
 import { generateUUID } from '../../../support/utils';
 import { ExerciseType } from '../../../support/constants';
@@ -49,8 +49,8 @@ describe('Test exam participation', () => {
                     examExerciseGroupCreation.addGroupWithExercise(exam, ExerciseType.TEXT, { textFixture }),
                     examExerciseGroupCreation.addGroupWithExercise(exam, ExerciseType.TEXT, { textFixture }),
 
-                    examExerciseGroupCreation.addGroupWithExercise(exam, ExerciseType.PROGRAMMING, { submission: allSuccessful, expectedScore: 100 }),
-                    examExerciseGroupCreation.addGroupWithExercise(exam, ExerciseType.PROGRAMMING, { submission: buildError, expectedScore: 0 }),
+                    examExerciseGroupCreation.addGroupWithExercise(exam, ExerciseType.PROGRAMMING, { submission: javaAllSuccessful, expectedScore: 100 }),
+                    examExerciseGroupCreation.addGroupWithExercise(exam, ExerciseType.PROGRAMMING, { submission: javaBuildError, expectedScore: 0 }),
 
                     examExerciseGroupCreation.addGroupWithExercise(exam, ExerciseType.QUIZ, { quizExerciseID: 0 }),
                     examExerciseGroupCreation.addGroupWithExercise(exam, ExerciseType.QUIZ, { quizExerciseID: 0 }),

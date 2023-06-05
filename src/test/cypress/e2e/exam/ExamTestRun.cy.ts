@@ -1,7 +1,7 @@
 import { Exam } from 'app/entities/exam.model';
 import { ExamBuilder, convertCourseAfterMultiPart } from '../../support/requests/CourseManagementRequests';
 import dayjs from 'dayjs/esm';
-import submission from '../../fixtures/exercise/programming/build_error/submission.json';
+import javaBuildError from '../../fixtures/exercise/programming/java/build_error/submission.json';
 import { Course } from 'app/entities/course.model';
 import { generateUUID } from '../../support/utils';
 import { ExerciseType } from '../../support/constants';
@@ -37,7 +37,7 @@ describe('Exam test run', () => {
                 exam = examResponse.body;
                 Promise.all([
                     examExerciseGroupCreation.addGroupWithExercise(exam, ExerciseType.TEXT, { textFixture }),
-                    examExerciseGroupCreation.addGroupWithExercise(exam, ExerciseType.PROGRAMMING, { submission, practiceMode: true }),
+                    examExerciseGroupCreation.addGroupWithExercise(exam, ExerciseType.PROGRAMMING, { submission: javaBuildError, practiceMode: true }),
                     examExerciseGroupCreation.addGroupWithExercise(exam, ExerciseType.QUIZ, { quizExerciseID: 0 }),
                     examExerciseGroupCreation.addGroupWithExercise(exam, ExerciseType.MODELING),
                 ]).then((responses) => {

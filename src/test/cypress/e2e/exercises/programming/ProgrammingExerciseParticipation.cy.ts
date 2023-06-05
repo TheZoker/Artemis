@@ -1,8 +1,8 @@
 import { ProgrammingExercise } from 'app/entities/programming-exercise.model';
 import { Course } from 'app/entities/course.model';
-import allSuccessful from '../../../fixtures/exercise/programming/all_successful/submission.json';
-import partiallySuccessful from '../../../fixtures/exercise/programming/partially_successful/submission.json';
-import buildError from '../../../fixtures/exercise/programming/build_error/submission.json';
+import javaAllSuccessful from '../../../fixtures/exercise/programming/java/all_successful/submission.json';
+import javaPartiallySuccessful from '../../../fixtures/exercise/programming/java/partially_successful/submission.json';
+import javaBuildError from '../../../fixtures/exercise/programming/java/build_error/submission.json';
 import { ProgrammingExerciseSubmission } from '../../../support/pageobjects/exercises/programming/OnlineEditorPage';
 import { convertCourseAfterMultiPart } from '../../../support/requests/CourseManagementRequests';
 import { courseManagementRequest, programmingExerciseEditor } from '../../../support/artemis';
@@ -18,17 +18,17 @@ describe('Programming exercise participations', () => {
 
     it('Makes a failing submission', () => {
         programmingExerciseEditor.startParticipation(course.id!, exercise.id!, studentOne);
-        makeSubmission(exercise, buildError);
+        makeSubmission(exercise, javaBuildError);
     });
 
     it('Makes a partially successful submission', () => {
         programmingExerciseEditor.startParticipation(course.id!, exercise.id!, studentTwo);
-        makeSubmission(exercise, partiallySuccessful);
+        makeSubmission(exercise, javaPartiallySuccessful);
     });
 
     it('Makes a successful submission', () => {
         programmingExerciseEditor.startParticipation(course.id!, exercise.id!, studentThree);
-        makeSubmission(exercise, allSuccessful);
+        makeSubmission(exercise, javaAllSuccessful);
     });
 
     after(() => {
