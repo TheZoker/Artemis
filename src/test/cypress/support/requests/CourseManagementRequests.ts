@@ -8,6 +8,8 @@ import { ProgrammingExercise } from 'app/entities/programming-exercise.model';
 import { Course, CourseInformationSharingConfiguration } from 'app/entities/course.model';
 import { BASE_API, CourseWideContext, DELETE, ExerciseType, GET, ProgrammingLanguage, POST, PUT } from '../constants';
 import javaProgrammingExerciseTemplate from '../../fixtures/exercise/programming/java/template.json';
+import pythonProgrammingExerciseTemplate from '../../fixtures/exercise/programming/python/template.json';
+import cProgrammingExerciseTemplate from '../../fixtures/exercise/programming/c/template.json';
 import { dayjsToString, generateUUID, parseArrayBufferAsJsonObject } from '../utils';
 import examTemplate from '../../fixtures/exam/template.json';
 import day from 'dayjs/esm';
@@ -134,8 +136,18 @@ export class CourseManagementRequests {
         assessmentDate = day().add(2, 'days'),
         assessmentType = ProgrammingExerciseAssessmentType.AUTOMATIC,
     ): Cypress.Chainable<Cypress.Response<ProgrammingExercise>> {
+        let programmingExerciseTemplate = {};
+
+        if (programmingLanguage == ProgrammingLanguage.PYTHON) {
+            programmingExerciseTemplate = pythonProgrammingExerciseTemplate;
+        } else if (programmingLanguage == ProgrammingLanguage.C) {
+            programmingExerciseTemplate = cProgrammingExerciseTemplate;
+        } else if (programmingLanguage == ProgrammingLanguage.JAVA) {
+            programmingExerciseTemplate = javaProgrammingExerciseTemplate;
+        }
+
         const template = {
-            ...javaProgrammingExerciseTemplate,
+            ...programmingExerciseTemplate,
             title,
             shortName: programmingShortName,
             packageName,

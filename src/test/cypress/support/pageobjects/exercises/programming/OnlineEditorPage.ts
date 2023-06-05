@@ -1,6 +1,5 @@
-import { DELETE } from '../../../constants';
 import { courseList, courseOverview } from '../../../artemis';
-import { BASE_API, GET, POST } from '../../../constants';
+import { BASE_API, DELETE, GET, POST } from '../../../constants';
 import { CypressCredentials } from '../../../users';
 import { getExercise } from '../../../utils';
 
@@ -34,14 +33,34 @@ export class OnlineEditorPage {
      */
     typeSubmission(exerciseID: number, submission: ProgrammingExerciseSubmission, packageName: string) {
         for (const newFile of submission.files) {
-            this.createFileInRootPackage(exerciseID, newFile.name, packageName);
-            cy.fixture(newFile.path).then(($fileContent) => {
-                const sanitizedContent = this.sanitizeInput($fileContent, packageName);
-                this.focusCodeEditor(exerciseID).type(sanitizedContent, { delay: 8 });
+            const fileExtension = newFile.name.split('.').pop();
+            // Change the file extension to txt, to avoid the online editor to do some auto indention etc.
+            const fileName = newFile.name.replace(fileExtension!, 'txt');
+            if (submission.createFilesInRootFolder) {
+                this.createFileInRootFolder(exerciseID, fileName);
+            } else {
+                this.createFileInRootPackage(exerciseID, fileName, packageName);
+            }
+            cy.fixture(newFile.path).then((fileContent) => {
+                const sanitizedContent = this.sanitizeInput(fileContent, packageName);
+                // Split the text to each line, so we can type each line at a time and jump to the beginning of the line every time
+                const lines = sanitizedContent.split(/\r?\n/);
+                this.focusCodeEditor(exerciseID);
+                lines.forEach((line: string) => {
+                    if (line == '') {
+                        cy.focused().type('\n');
+                    } else {
+                        cy.focused().type('{home}');
+                        cy.focused().type(line, { delay: 4 });
+                        cy.focused().type('\n');
+                    }
+                });
                 // Delete the remaining content which has been automatically added by the code editor.
                 // We simply send as many {del} keystrokes as the file has characters. This shouldn't increase the test runtime by too long since we set the delay to 0.
                 const deleteRemainingContent = '{del}'.repeat(sanitizedContent.length);
                 cy.focused().type(deleteRemainingContent, { delay: 0 });
+                // Rename the file back to the original name
+                this.renameFile(exerciseID, fileName, newFile.name);
             });
         }
         cy.wait(1000);
@@ -54,6 +73,17 @@ export class OnlineEditorPage {
      */
     private sanitizeInput(input: string, packageName: string) {
         return input.replace(/\${packageName}/g, packageName).replace(/{/g, '{{}');
+    }
+
+    /**
+     * Renames a file in the filebrowser.
+     * @param exerciseID the ID of the exercise
+     * @param oldName the old file name
+     * @param newName the new file name
+     */
+    renameFile(exerciseID: number, oldName: string, newName: string) {
+        this.findFile(exerciseID, oldName).find('#file-browser-file-edit').click();
+        getExercise(exerciseID).find('.list-group-item__input').clear().type(newName).wait(500).type('{enter}').wait(500);
     }
 
     /**
@@ -101,6 +131,28 @@ export class OnlineEditorPage {
     submitPractice(exerciseID: number) {
         getExercise(exerciseID).find('#submit_button').click();
         getExercise(exerciseID).find('#result-score-badge', { timeout: 200000 }).should('contain.text', 'PRACTICE').and('be.visible');
+    }
+
+    /**
+     * Creates a file at root level in the file browser.
+     * @param exerciseID the ID of the exercise
+     * @param fileName the name of the new file (e.g. "Policy.java")
+     */
+    createFileInRootFolder(exerciseID: number, fileName: string) {
+        const postRequestId = 'createFile' + fileName;
+        const getRequestId = 'getFile' + fileName;
+        const requestPath = BASE_API + 'repository/*/file?file=' + fileName;
+        getExercise(exerciseID).find('[id="create_file_root"]').click().wait(500);
+        cy.intercept(POST, requestPath).as(postRequestId);
+        cy.intercept(GET, requestPath).as(getRequestId);
+        getExercise(exerciseID).find('#file-browser-create-node').type(fileName).wait(500).type('{enter}');
+        cy.wait('@' + postRequestId)
+            .its('response.statusCode')
+            .should('eq', 200);
+        cy.wait('@' + getRequestId)
+            .its('response.statusCode')
+            .should('eq', 200);
+        this.findFileBrowser(exerciseID).contains(fileName).should('be.visible').wait(500);
     }
 
     /**
@@ -168,9 +220,9 @@ export class OnlineEditorPage {
         // Decompress the file tree to access the parent folder
         this.toggleCompressFileTree(exerciseID);
         // We delete all existing files, so we can create new files and don't have to delete their already existing content
-        this.deleteFile(exerciseID, 'Client.java');
-        this.deleteFile(exerciseID, 'BubbleSort.java');
-        this.deleteFile(exerciseID, 'MergeSort.java');
+        for (const deleteFile of submission.deleteFiles) {
+            this.deleteFile(exerciseID, deleteFile);
+        }
         this.typeSubmission(exerciseID, submission, packageName);
         this.submit(exerciseID);
         verifyOutput();
@@ -197,6 +249,8 @@ export class OnlineEditorPage {
  * @param files An array of containers, which contain the file path of the changed file as well as its name.
  */
 export class ProgrammingExerciseSubmission {
+    deleteFiles: string[];
+    createFilesInRootFolder: boolean;
     files: ProgrammingExerciseFile[];
     expectedResult: string;
 }
