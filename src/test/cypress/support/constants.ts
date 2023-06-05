@@ -25,6 +25,21 @@ export enum ExerciseType {
     FILE_UPLOAD = 'file-upload',
 }
 
+// ProgrammingLanguage
+// Copied from app/entities/programming-exercise.model
+export enum ProgrammingLanguage {
+    JAVA = 'JAVA',
+    PYTHON = 'PYTHON',
+    C = 'C',
+    HASKELL = 'HASKELL',
+    KOTLIN = 'KOTLIN',
+    VHDL = 'VHDL',
+    ASSEMBLER = 'ASSEMBLER',
+    SWIFT = 'SWIFT',
+    OCAML = 'OCAML',
+    EMPTY = 'EMPTY',
+}
+
 // CourseWideContext
 // Copied from src\main\webapp\app\shared\metis\metis.util.ts
 export enum CourseWideContext {

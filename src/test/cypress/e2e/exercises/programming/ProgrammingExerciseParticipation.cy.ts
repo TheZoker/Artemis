@@ -7,6 +7,7 @@ import { ProgrammingExerciseSubmission } from '../../../support/pageobjects/exer
 import { convertCourseAfterMultiPart } from '../../../support/requests/CourseManagementRequests';
 import { courseManagementRequest, programmingExerciseEditor } from '../../../support/artemis';
 import { admin, studentOne, studentThree, studentTwo } from '../../../support/users';
+import { ProgrammingLanguage } from '../../../support/constants';
 
 describe('Programming exercise participations', () => {
     let course: Course;

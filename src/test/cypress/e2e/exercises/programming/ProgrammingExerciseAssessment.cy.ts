@@ -14,6 +14,7 @@ import {
     programmingExerciseFeedback,
 } from '../../../support/artemis';
 import { admin, instructor, studentOne, tutor } from '../../../support/users';
+import { ProgrammingLanguage } from 'src/test/cypress/support/constants';
 
 describe('Programming exercise assessment', () => {
     let course: Course;
@@ -103,6 +104,7 @@ describe('Programming exercise assessment', () => {
                     undefined,
                     undefined,
                     undefined,
+                    ProgrammingLanguage.JAVA,
                     assessmentDueDate,
                     ProgrammingExerciseAssessmentType.SEMI_AUTOMATIC,
                 )

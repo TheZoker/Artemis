@@ -6,7 +6,7 @@ import { Exercise as CypressExercise } from 'src/test/cypress/support/pageobject
 import { ExerciseGroup } from 'app/entities/exercise-group.model';
 import { ProgrammingExercise } from 'app/entities/programming-exercise.model';
 import { Course, CourseInformationSharingConfiguration } from 'app/entities/course.model';
-import { BASE_API, CourseWideContext, DELETE, ExerciseType, GET, POST, PUT } from '../constants';
+import { BASE_API, CourseWideContext, DELETE, ExerciseType, GET, ProgrammingLanguage, POST, PUT } from '../constants';
 import javaProgrammingExerciseTemplate from '../../fixtures/exercise/programming/java/template.json';
 import { dayjsToString, generateUUID, parseArrayBufferAsJsonObject } from '../utils';
 import examTemplate from '../../fixtures/exam/template.json';
@@ -129,6 +129,7 @@ export class CourseManagementRequests {
         dueDate = day().add(1, 'day'),
         title = 'Cypress programming exercise ' + generateUUID(),
         programmingShortName = 'cypress' + generateUUID(),
+        programmingLanguage = ProgrammingLanguage.JAVA,
         packageName = 'de.test',
         assessmentDate = day().add(2, 'days'),
         assessmentType = ProgrammingExerciseAssessmentType.AUTOMATIC,
@@ -154,6 +155,7 @@ export class CourseManagementRequests {
             exercise.maxStaticCodeAnalysisPenalty = scaMaxPenalty;
         }
 
+        exercise.programmingLanguage = programmingLanguage;
         exercise.testwiseCoverageEnabled = recordTestwiseCoverage;
 
         return cy.request({
